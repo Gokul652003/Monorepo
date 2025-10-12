@@ -20,7 +20,13 @@
     "install:all": "npm install --workspaces",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "lint": "eslint \"**/*.{ts,tsx,js,jsx}\"",
-    "lint:fix": "eslint \"**/*.{ts,tsx,js,jsx}\" --fix"
+    "lint:fix": "eslint \"**/*.{ts,tsx,js,jsx}\" --fix",
+    "supabase:start": "npm run supabase:start --workspace api",
+    "supabase:stop": "npm run supabase:stop --workspace api",
+    "supabase:status": "npm run supabase:status --workspace api",
+    "supabase:db:start": "npm run supabase:db:start --workspace api",
+    "supabase:db:reset": "npm run supabase:db:reset --workspace api",
+    "supabase:secrets": "npm run supabase:secrets --workspace api"
   },
   "devDependencies": {
     "concurrently": "^9.0.0",
