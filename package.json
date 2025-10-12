@@ -1,0 +1,25 @@
+{
+  "name": "business-app",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Full-stack app with React (Vite) frontend and NestJS backend",
+  "workspaces": [
+    "web-app",
+    "api"
+  ],
+  "volta": {
+    "node": "22.20.0",
+    "npm": "10.9.4"
+  },
+  "scripts": {
+    "dev:web": "npm run dev --workspace web-app",
+    "dev:api": "npm run start:dev --workspace api",
+    "dev": "concurrently \"npm run dev:web\" \"npm run dev:api\"",
+    "build:web": "npm run build --workspace web-app",
+    "build:api": "npm run build --workspace api",
+    "install:all": "npm install --workspaces"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}
