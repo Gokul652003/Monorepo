@@ -1,0 +1,19 @@
+# Node modules
+node_modules
+**/node_modules
+
+# Build outputs
+dist
+web-app/dist
+api/dist
+
+# Logs
+*.log
+
+# Environment files
+.env
+**/.env
+
+# IDE files
+.vscode
+.idea

@@ -17,9 +17,13 @@
     "dev": "concurrently \"npm run dev:web\" \"npm run dev:api\"",
     "build:web": "npm run build --workspace web-app",
     "build:api": "npm run build --workspace api",
-    "install:all": "npm install --workspaces"
+    "install:all": "npm install --workspaces",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "lint": "eslint \"**/*.{ts,tsx,js,jsx}\"",
+    "lint:fix": "eslint \"**/*.{ts,tsx,js,jsx}\" --fix"
   },
   "devDependencies": {
-    "concurrently": "^9.0.0"
+    "concurrently": "^9.0.0",
+    "prettier": "^3.6.2"
   }
 }
