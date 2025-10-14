@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '../../../lib/supabase-client';
 
 interface SignInProps {
   isAdmin?: boolean;
@@ -11,15 +11,12 @@ interface SignInState {
 }
 
 const SignIn: React.FC<SignInProps> = ({ isAdmin = false }) => {
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
-  const supabaseKey = import.meta.env.VITE_SUPABASE_KEY as string;
-  const supabase = createClient(supabaseUrl, supabaseKey);
   const [state, setState] = useState<SignInState>({
     email: '',
     password: '',
   });
 
-  const supabaseSignin = async (email: string, password: string) => {
+  const emailSignin = async (email: string, password: string) => {
     await supabase.auth.signInWithPassword({
       email,
       password,
@@ -37,7 +34,7 @@ const SignIn: React.FC<SignInProps> = ({ isAdmin = false }) => {
   const handleOnSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     const { email, password } = state;
-    supabaseSignin(email, password);
+    emailSignin(email, password);
 
     setState({ email: '', password: '' });
   };

@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import SignUp from '../components/SignUp';
 import SignIn from '../components/SignIn';
 
-const AuthForm: React.FC = () => {
-  const [type, setType] = useState<'signIn' | 'signUp'>('signIn');
+export const AuthForm: React.FC = () => {
+  const [authMode, setAuthMode] = useState<'signIn' | 'signUp'>('signIn');
   const [isAdmin, setIsAdmin] = useState(false);
-  
 
   const handleOnClick = (text: 'signIn' | 'signUp') => {
-    if (text !== type) {
-      setType(text);
+    if (text !== authMode) {
+      setAuthMode(text);
     }
   };
 
@@ -17,7 +16,7 @@ const AuthForm: React.FC = () => {
     setIsAdmin((prev) => !prev);
   };
 
-  const containerClass = 'container ' + (type === 'signUp' ? 'right-panel-active' : '');
+  const containerClass = 'container ' + (authMode === 'signUp' ? 'right-panel-active' : '');
 
   return (
     <div className="auth-form-wrapper flex flex-col items-center justify-center min-h-screen bg-gray-100">
@@ -65,5 +64,3 @@ const AuthForm: React.FC = () => {
     </div>
   );
 };
-
-export default AuthForm;

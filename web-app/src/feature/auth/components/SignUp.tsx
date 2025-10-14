@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '../../../lib/supabase-client';
 
 interface SignUpState {
   name: string;
@@ -8,18 +8,13 @@ interface SignUpState {
 }
 
 const SignUp: React.FC = () => {
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
-  const supabaseKey = import.meta.env.VITE_SUPABASE_KEY as string;
-
-  console.log(supabaseKey)
-  const supabase = createClient(supabaseUrl, supabaseKey);
   const [state, setState] = useState<SignUpState>({
     name: '',
     email: '',
     password: '',
   });
 
-  const supabaseSignup = async (email: string, password: string) => {
+  const emailSignup = async (email: string, password: string) => {
     await supabase.auth.signUp({
       email,
       password,
@@ -37,7 +32,7 @@ const SignUp: React.FC = () => {
     evt.preventDefault();
 
     const { email, password } = state;
-    supabaseSignup(email, password);
+    emailSignup(email, password);
 
     // Reset state
     setState({ name: '', email: '', password: '' });
