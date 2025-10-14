@@ -1,0 +1,11 @@
+### Assign a role to a user (only once, usually by admin)
+POST http://localhost:3000/auth/assign-role
+Content-Type: application/json
+Authorization: Bearer <YOUR_JWT_TOKEN>
+
+{
+  "role": "admin"
+}
+
+
+
