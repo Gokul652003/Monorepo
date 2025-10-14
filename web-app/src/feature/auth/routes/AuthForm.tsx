@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import SignUp from '../components/SignUp';
-import SignIn from '../components/SignIn';
+import SignUp from '@/feature/auth/components/SignUp';
+import SignIn from '@/feature/auth/components/SignIn';
 
 export const AuthForm: React.FC = () => {
   const [authMode, setAuthMode] = useState<'signIn' | 'signUp'>('signIn');
