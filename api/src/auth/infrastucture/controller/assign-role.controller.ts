@@ -13,14 +13,14 @@ export class AuthController {
     ) { }
 
     @Post('assign-role')
-    async assignRole(@Body() body: { role: string }, @Headers('authorization') authHeader: string) {
+    async assignRole(@Body() body: { role: string,email:string }, @Headers('authorization') authHeader: string) {
         const token = authHeader?.split(' ')[1];
         const { data, error } = await supabaseAdmin.auth.getUser(token);
 
         if (error || !data?.user) throw new UnauthorizedException('Invalid token');
 
         const userId = data.user.id;
-        const updated = await this.authService.assignRole(userId, body.role);
+        const updated = await this.authService.assignRole(userId, body.email,body.role);
 
         return { success: true, user: updated };
     }

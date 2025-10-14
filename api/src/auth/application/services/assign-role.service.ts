@@ -12,9 +12,10 @@ export class AuthService implements IAuthService {
         private readonly profileRepo: IProfileRepository,
     ) { }
 
-    async assignRole(userId: string, role: string): Promise<Profile | null> {
+    async assignRole(userId: string, email:string ,role: string): Promise<Profile | null> {
         const user = await this.profileRepo.findById(userId);
-        if (!user) throw new NotFoundException('User not found');
-        return this.profileRepo.updateRole(userId, role);
+        if (user) throw new NotFoundException('User already exists');
+        // You need a create method in your repository
+        return this.profileRepo.create({ id: userId,email, role });
     }
 }

@@ -20,4 +20,9 @@ export class ProfileRepository implements IProfileRepository {
         const a = this.repo.findOne({ where: { id } });
         return this.repo.findOne({ where: { id } });
     }
+
+    async create(profileData: Profile): Promise<Profile> {
+        const profile = this.repo.create(profileData);
+        return this.repo.save(profile);
+    }
 }

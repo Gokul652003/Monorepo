@@ -14,12 +14,14 @@ import { Profile } from './auth/core/entities/user-role.entity'; // <-- Import y
       username: 'postgres',
       password: 'postgres',
       database: 'postgres',
-      entities: [Profile],
-      synchronize: true, // disable in production!
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      synchronize: false, // 🔥 turn off auto-sync
+      migrations: [__dirname + '/migrations/*{.ts,.js}'], // migration files
+      migrationsRun: true
     }),
     AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
