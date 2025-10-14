@@ -1,4 +1,4 @@
-import AuthForm from "./feature/auth/routes/AuthForm";
+import { AuthForm } from "./feature/auth/routes/AuthForm";
 
 function App() {
 

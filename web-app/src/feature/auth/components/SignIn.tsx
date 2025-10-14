@@ -1,42 +1,35 @@
-import React, { useState } from 'react';
-import { supabase } from '../../../lib/supabase-client';
+import { emailSignin } from '@/lib/supabase-client';
+import React,{ useState } from 'react';
 
 interface SignInProps {
   isAdmin?: boolean;
 }
 
-interface SignInState {
+interface SignInDetails {
   email: string;
   password: string;
 }
 
 const SignIn: React.FC<SignInProps> = ({ isAdmin = false }) => {
-  const [state, setState] = useState<SignInState>({
+  const [formData, setFormData] = useState<SignInDetails>({
     email: '',
     password: '',
   });
 
-  const emailSignin = async (email: string, password: string) => {
-    await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-  };
-
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = evt.target;
-    setState({
-      ...state,
+    setFormData({
+      ...formData,
       [name]: value,
     });
   };
 
   const handleOnSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    const { email, password } = state;
+    const { email, password } = formData;
     emailSignin(email, password);
 
-    setState({ email: '', password: '' });
+    setFormData({ email: '', password: '' });
   };
 
   return (
@@ -72,7 +65,7 @@ const SignIn: React.FC<SignInProps> = ({ isAdmin = false }) => {
           type="email"
           name="email"
           placeholder={isAdmin ? 'Admin Email' : 'Email'}
-          value={state.email}
+          value={formData.email}
           onChange={handleChange}
           className="border p-2 rounded"
           required
@@ -82,7 +75,7 @@ const SignIn: React.FC<SignInProps> = ({ isAdmin = false }) => {
           type="password"
           name="password"
           placeholder="Password"
-          value={state.password}
+          value={formData.password}
           onChange={handleChange}
           className="border p-2 rounded"
           required

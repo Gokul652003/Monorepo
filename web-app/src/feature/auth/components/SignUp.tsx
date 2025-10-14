@@ -1,29 +1,23 @@
 import React, { useState } from 'react';
-import { supabase } from '../../../lib/supabase-client';
+import { emailSignup } from "@/lib/supabase-client";
 
-interface SignUpState {
+interface SignUpDetails {
   name: string;
   email: string;
   password: string;
 }
 
 const SignUp: React.FC = () => {
-  const [state, setState] = useState<SignUpState>({
+  const [formData, setFormData] = useState<SignUpDetails>({
     name: '',
     email: '',
     password: '',
   });
 
-  const emailSignup = async (email: string, password: string) => {
-    await supabase.auth.signUp({
-      email,
-      password,
-    });
-  };
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = evt.target;
-    setState({
-      ...state,
+    setFormData({
+      ...formData,
       [name]: value,
     });
   };
@@ -31,11 +25,11 @@ const SignUp: React.FC = () => {
   const handleOnSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    const { email, password } = state;
+    const { email, password } = formData;
     emailSignup(email, password);
 
-    // Reset state
-    setState({ name: '', email: '', password: '' });
+    // Reset Sta
+    setFormData({ name: '', email: '', password: '' });
   };
 
   return (
@@ -57,7 +51,7 @@ const SignUp: React.FC = () => {
         <input
           type="text"
           name="name"
-          value={state.name}
+          value={formData.name}
           onChange={handleChange}
           placeholder="Name"
           className="border p-2 rounded"
@@ -66,7 +60,7 @@ const SignUp: React.FC = () => {
         <input
           type="email"
           name="email"
-          value={state.email}
+          value={formData.email}
           onChange={handleChange}
           placeholder="Email"
           className="border p-2 rounded"
@@ -75,7 +69,7 @@ const SignUp: React.FC = () => {
         <input
           type="password"
           name="password"
-          value={state.password}
+          value={formData.password}
           onChange={handleChange}
           placeholder="Password"
           className="border p-2 rounded"
