@@ -5,13 +5,13 @@ interface SignInProps {
   isAdmin?: boolean;
 }
 
-interface SignInDetails {
+interface SignInFormData {
   email: string;
   password: string;
 }
 
 const SignIn: React.FC<SignInProps> = ({ isAdmin = false }) => {
-  const [formData, setFormData] = useState<SignInDetails>({
+  const [formData, setFormData] = useState<SignInFormData>({
     email: '',
     password: '',
   });

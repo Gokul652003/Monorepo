@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { emailSignup } from "@/lib/supabase-client";
 
-interface SignUpDetails {
+interface SignUpFormData {
   name: string;
   email: string;
   password: string;
 }
 
 const SignUp: React.FC = () => {
-  const [formData, setFormData] = useState<SignUpDetails>({
+  const [formData, setFormData] = useState<SignUpFormData>({
     name: '',
     email: '',
     password: '',
