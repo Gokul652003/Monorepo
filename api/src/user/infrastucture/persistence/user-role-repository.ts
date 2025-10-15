@@ -1,27 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Profile } from 'src/auth/core/entities/user-role.entity';
-import { IProfileRepository } from 'src/auth/core/repository/user-role-repository';
+import { User } from 'src/user/core/entities/user-role.entity';
+import { IUserRepository } from 'src/user/core/repository/user-role-repository';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class ProfileRepository implements IProfileRepository {
+export class UserRepository implements IUserRepository {
     constructor(
-        @InjectRepository(Profile)
-        private readonly repo: Repository<Profile>,
+        @InjectRepository(User)
+        private readonly repo: Repository<User>,
     ) { }
 
-    async findById(id: string): Promise<Profile | null> {
+    async findById(id: string): Promise<User | null> {
         return this.repo.findOne({ where: { id } });
     }
 
-    async updateRole(id: string, role: string): Promise<Profile | null> {
+    async updateRole(id: string, role: string): Promise<User | null> {
         await this.repo.update({ id }, { role });
         const a = this.repo.findOne({ where: { id } });
         return this.repo.findOne({ where: { id } });
     }
 
-    async create(profileData: Profile): Promise<Profile> {
+    async create(profileData: User): Promise<User> {
         const profile = this.repo.create(profileData);
         return this.repo.save(profile);
     }

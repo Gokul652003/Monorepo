@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm'; // <-- Add this import
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
-import { Profile } from './auth/core/entities/user-role.entity'; // <-- Import your entity
+import { UserModule } from './user/user.module';
+import { User } from './user/core/entities/user-role.entity'; // <-- Import your entity
 
 @Module({
   imports: [
@@ -19,7 +19,7 @@ import { Profile } from './auth/core/entities/user-role.entity'; // <-- Import y
       migrations: [__dirname + '/migrations/*{.ts,.js}'], // migration files
       migrationsRun: true
     }),
-    AuthModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,15 +1,15 @@
 // src/presentation/controllers/auth.controller.ts
 import { Controller, Post, Body, Headers, Inject, UnauthorizedException,Get } from '@nestjs/common';
-import { type IAuthService } from 'src/auth/application/services/assign-role-service-interface';
+import { IUserService } from 'src/user/application/services/assign-role-service-interface';
 import { supabaseAdmin } from 'supabase/config';
 
 
 
-@Controller('auth')
-export class AuthController {
+@Controller('user')
+export class UserController {
     constructor(
-        @Inject('IAuthService')
-        private readonly authService: IAuthService
+        @Inject(IUserService)
+        private readonly authService: IUserService
     ) { }
 
     @Post('assign-role')
