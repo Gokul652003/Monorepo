@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({ name: 'user_role', schema: 'user' }) 
+@Entity({ name: 'user_role', schema: 'user' })
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -11,14 +11,15 @@ export class User {
   @Column()
   role: string;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ name: 'created_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  @Column({ name: 'updated_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({ name: 'deleted_at', type: 'timestamp', nullable: true })
   deletedAt: Date | null;
+
 
   @Column({ type: 'jsonb', default: () => "'[]'::jsonb" })
   permissions: any;
