@@ -6,23 +6,22 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
-    constructor(
-        @InjectRepository(User)
-        private readonly repo: Repository<User>,
-    ) { }
+  constructor(
+    @InjectRepository(User)
+    private readonly repo: Repository<User>,
+  ) {}
 
-    async findById(id: string): Promise<User | null> {
-        return this.repo.findOne({ where: { id } });
-    }
+  async findById(id: string): Promise<User | null> {
+    return this.repo.findOne({ where: { id } });
+  }
 
-    async updateRole(id: string, role: string): Promise<User | null> {
-        await this.repo.update({ id }, { role });
-        const a = this.repo.findOne({ where: { id } });
-        return this.repo.findOne({ where: { id } });
-    }
+  async updateRole(id: string, role: string): Promise<User | null> {
+    await this.repo.update({ id }, { role });
+    return this.repo.findOne({ where: { id } });
+  }
 
-    async create(profileData: User): Promise<User> {
-        const profile = this.repo.create(profileData);
-        return this.repo.save(profile);
-    }
+  async create(profileData: User): Promise<User> {
+    const profile = this.repo.create(profileData);
+    return this.repo.save(profile);
+  }
 }

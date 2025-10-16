@@ -2,15 +2,25 @@ import {
   Controller,
   Post,
   Body,
-  Headers,
   Inject,
-  UnauthorizedException,
   HttpCode,
   HttpStatus,
+  Get,
 } from '@nestjs/common';
 import { IUserService } from 'src/user/application/services/assign-role-service-interface';
-import { supabaseAdmin } from 'supabase/config';
+import { type SupabaseUser } from 'src/platform/gaurd/supabase-auth.guard';
+import { User } from 'src/platform/user/user.decorator';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+  ApiBody,
+} from '@nestjs/swagger';
+import { AssignRoleDto } from './dto/assign-role.dto';
 
+@ApiTags('Users')
+@ApiBearerAuth()
 @Controller('user')
 export class UserController {
   constructor(
@@ -18,20 +28,21 @@ export class UserController {
     private readonly authService: IUserService,
   ) {}
 
+  @Get('me')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Get current user info' })
+  @ApiResponse({ status: 200, description: 'Returns a simple message' })
+  getMe() {
+    return { message: 'User service is up and running' };
+  }
+
   @Post('assign-role')
-  @HttpCode(HttpStatus.OK) 
-  async assignRole(
-    @Body() body: { role: string; email: string },
-    @Headers('authorization') authHeader: string,
-  ) {
-    const token = authHeader?.split(' ')[1];
-    const { data, error } = await supabaseAdmin.auth.getUser(token);
-
-    if (error || !data?.user) {
-      throw new UnauthorizedException('Invalid token');
-    }
-
-    const userId = data.user.id;
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Assign a role to a user' })
+  @ApiBody({ type: AssignRoleDto })
+  async assignRole(@User() user: SupabaseUser, @Body() body: AssignRoleDto) {
+    console.log(user);
+    const userId = user.id;
     await this.authService.assignRole(userId, body.email, body.role);
   }
 }
