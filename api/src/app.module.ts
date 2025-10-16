@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'; // <-- Add this import
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
-import { User } from './user/core/entities/user-role.entity'; // <-- Import your entity
+import { MetricsModule } from './metrics/metrics.module';
 
 @Module({
   imports: [
@@ -17,11 +17,12 @@ import { User } from './user/core/entities/user-role.entity'; // <-- Import your
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: false, // 🔥 turn off auto-sync
       migrations: [__dirname + '/migrations/*{.ts,.js}'], // migration files
-      migrationsRun: true
+      migrationsRun: true,
     }),
     UserModule,
+    MetricsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

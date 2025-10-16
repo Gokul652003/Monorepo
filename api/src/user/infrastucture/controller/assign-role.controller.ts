@@ -41,7 +41,6 @@ export class UserController {
   @ApiOperation({ summary: 'Assign a role to a user' })
   @ApiBody({ type: AssignRoleDto })
   async assignRole(@User() user: SupabaseUser, @Body() body: AssignRoleDto) {
-    console.log(user);
     const userId = user.id;
     await this.authService.assignRole(userId, body.email, body.role);
   }
