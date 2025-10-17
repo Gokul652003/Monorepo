@@ -12,12 +12,12 @@ export class UserRepository implements IUserRepository {
   ) {}
 
   async findById(id: string): Promise<User | null> {
-    return this.repo.findOne({ where: { id } });
+    return this.repo.findOne({ where: { authId: id } });
   }
 
   async updateRole(id: string, role: string): Promise<User | null> {
-    await this.repo.update({ id }, { role });
-    return this.repo.findOne({ where: { id } });
+    await this.repo.update({ authId: id }, { role });
+    return this.repo.findOne({ where: { authId: id } });
   }
 
   async create(profileData: User): Promise<User> {
