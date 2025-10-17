@@ -48,6 +48,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
         `❌ ${request.method} ${request.url} - ${status}`,
         exception instanceof Error ? exception.stack : String(exception),
       );
+    } else if (status > 200 && status < 300) {
+      this.logger.log(`✅  ${request.method} ${request.url} - ${status}`);
     } else if (status >= 400) {
       this.logger.warn(`⚠️  ${request.method} ${request.url} - ${status}`, {
         error: errorResponse,
