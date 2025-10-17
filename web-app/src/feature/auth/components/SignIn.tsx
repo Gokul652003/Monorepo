@@ -27,22 +27,21 @@ const SignIn: React.FC<SignInProps> = ({ isAdmin = false }) => {
     });
   };
 
-  const handleOnSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
+  const handleOnSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     const { email, password } = formData;
-    emailSignin(email, password);
+    await emailSignin(email, password);
 
     setFormData({ email: '', password: '' });
-    navigate(paths.home,{
+    navigate(paths.home, {
       replace: true,
     });
   };
 
   return (
     <div
-      className={`form-container  ${
-        isAdmin ? 'border-red-500 border-2 rounded-lg p-6 bg-red-50 w-full' : 'sign-in-container '
-      }`}
+      className={`form-container  ${isAdmin ? 'border-red-500 border-2 rounded-lg p-6 bg-red-50 w-full' : 'sign-in-container '
+        }`}
     >
       <form onSubmit={handleOnSubmit} className="flex flex-col gap-4 w-full max-w-sm mx-auto">
         <h1 className={`text-2xl font-bold text-center ${isAdmin ? 'text-red-700' : ''}`}>

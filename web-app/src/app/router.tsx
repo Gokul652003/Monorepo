@@ -1,7 +1,8 @@
 import paths from '@/config/paths';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import { NotFoundRoute } from './router/not-found';
 import { AuthRoute } from '@/feature/auth/routes/AuthForm';
+import { ProtectedRoute } from '@/lib/auth';
 
 const router = createBrowserRouter([
   {
@@ -10,6 +11,8 @@ const router = createBrowserRouter([
   },
   {
     path: '/',
+    element: <ProtectedRoute><Outlet /></ProtectedRoute>,
+
     children: [
       {
         index: true,
