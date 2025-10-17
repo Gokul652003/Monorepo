@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import SignUp from '@/feature/auth/components/SignUp';
 import SignIn from '@/feature/auth/components/SignIn';
 
-export const AuthForm: React.FC = () => {
+export const AuthRoute: React.FC = () => {
   const [authMode, setAuthMode] = useState<'signIn' | 'signUp'>('signIn');
   const [isAdmin, setIsAdmin] = useState(false);
 
