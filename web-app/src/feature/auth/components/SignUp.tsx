@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { emailSignup } from "@/lib/supabase-client";
+import { AuthRoles, emailSignup } from '@/lib/supabase-client';
 
 interface SignUpFormData {
   name: string;
@@ -26,7 +26,7 @@ const SignUp: React.FC = () => {
     evt.preventDefault();
 
     const { email, password } = formData;
-    emailSignup(email, password);
+    emailSignup(email, password, AuthRoles.OWNER);
 
     // Reset Sta
     setFormData({ name: '', email: '', password: '' });
