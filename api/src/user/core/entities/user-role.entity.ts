@@ -1,9 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity({ name: 'user_role', schema: 'user' })
-export class User {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+export class UserRole {
+  @PrimaryColumn({ type: 'uuid', name: 'auth_id' })
+  authId: string;
 
   @Column()
   email: string;
@@ -12,23 +12,26 @@ export class User {
   role: string;
 
   @Column({
-    name: 'created_at',
     type: 'timestamp',
+    name: 'created_at',
     default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: Date;
 
   @Column({
-    name: 'updated_at',
     type: 'timestamp',
+    name: 'updated_at',
     default: () => 'CURRENT_TIMESTAMP',
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
 
-  @Column({ name: 'deleted_at', type: 'timestamp', nullable: true })
+  @Column({ type: 'timestamp', name: 'deleted_at', nullable: true })
   deletedAt: Date | null;
 
-  @Column({ type: 'jsonb', default: () => "'[]'::jsonb" })
+  @Column({ type: 'timestamp', name: 'blocked_at', nullable: true })
+  blockedAt: Date | null;
+
+  @Column({ type: 'jsonb', default: () => "'{}'::jsonb" })
   permissions: any;
 }
