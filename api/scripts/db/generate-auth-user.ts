@@ -2,7 +2,6 @@ import { supabaseAdmin } from '../../config';
 
 async function seedAuth() {
   console.log('🌱 Seeding auth users...');
-  console.log('Service role key:', process.env.SUPABASE_SERVICE_ROLE_KEY); // DEBUG
 
   const users = [
     { email: 'admin@example.com', password: 'admin123', role: 'admin' },

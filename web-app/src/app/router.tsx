@@ -3,19 +3,29 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { NotFoundRoute } from './router/not-found';
 import { AuthRoute } from '@/feature/auth/routes/AuthForm';
 
-
 const router = createBrowserRouter([
   {
     path: paths.auth,
-    element: <AuthRoute/>,
+    element: <AuthRoute />,
   },
   {
-    path: '*', 
+    path: '/',
+    children: [
+      {
+        index: true,
+        lazy: async () => {
+          const { DashboardRoute } = await import('@/feature/dashboard/routes/dashboard-route');
+          return { Component: DashboardRoute };
+        },
+      },
+    ],
+  },
+  {
+    path: '*',
     element: <NotFoundRoute />,
   },
 ]);
 
-export function App() {
+export function AppRouter() {
   return <RouterProvider router={router} />;
 }
-

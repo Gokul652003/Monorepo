@@ -1,5 +1,7 @@
+import paths from '@/config/paths';
 import { emailSignin } from '@/lib/supabase-client';
-import React,{ useState } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface SignInProps {
   isAdmin?: boolean;
@@ -11,6 +13,7 @@ interface SignInFormData {
 }
 
 const SignIn: React.FC<SignInProps> = ({ isAdmin = false }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<SignInFormData>({
     email: '',
     password: '',
@@ -30,6 +33,9 @@ const SignIn: React.FC<SignInProps> = ({ isAdmin = false }) => {
     emailSignin(email, password);
 
     setFormData({ email: '', password: '' });
+    navigate(paths.home,{
+      replace: true,
+    });
   };
 
   return (
