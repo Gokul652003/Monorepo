@@ -15,6 +15,9 @@ BEGIN
     END IF;
 END$$;
 
+    ALTER TABLE "user".user_role
+    ADD COLUMN blocked_at TIMESTAMP NULL;
+
 -- 2️⃣ Add foreign key constraint
 DO $$
 BEGIN
