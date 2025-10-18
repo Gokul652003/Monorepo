@@ -1,11 +1,11 @@
 // src/auth.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserController } from './infrastucture/controller/assign-role.controller';
-import { UserService } from './application/services/assign-role.service';
+import { UserController } from './infrastucture/controller/user.controller';
+import { UserService } from './application/services/user.service';
 import { UserRepository } from './infrastucture/persistence/user-role-repository';
 import { User } from './core/entities/user-role.entity';
-import { IUserService } from './application/services/assign-role-service-interface';
+import { IUserService } from './application/services/user-service-interface';
 import { IUserRepository } from './core/repository/user-role-repository';
 
 @Module({

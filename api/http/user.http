@@ -1,17 +1,27 @@
-### Sign up a new user
-POST http://localhost:54321/auth/v1/login
+@supabase_url = {{$dotenv supabase_url}}
+@supabase_api_key = {{$dotenv supabase_api_key}}
+
+### Login
+# @name login
+POST http://localhost:54321/auth/v1/token?grant_type=password
 Content-Type: application/json
+apikey: {{supabase_api_key}}
 
 {
-  "email": "newuser@example.com",
-  "password": "Password123"
+  "email": "admin@example.com",
+  "password": "admin123"
 }
+
+### Assign access token
+@access_token={{login.response.body.access_token}}
+@user_id={{login.response.body.user.id}}
 
 
 ### Assign a role to a user (only once, usually by admin)
 POST http://localhost:3000/user/assign-role
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTc2MDYwODY2NX1dLCJhcHBfbWV0YWRhdGEiOnsicHJvdmlkZXIiOiJlbWFpbCIsInByb3ZpZGVycyI6WyJlbWFpbCJdfSwiYXVkIjoiYXV0aGVudGljYXRlZCIsImVtYWlsIjoiZ29rdWxAMjAwM2dtYWlsLmNvbSIsImV4cCI6MTc2MDYxMjI2NSwiaWF0IjoxNzYwNjA4NjY1LCJpc19hbm9ueW1vdXMiOmZhbHNlLCJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjU0MzIxL2F1dGgvdjEiLCJwaG9uZSI6IiIsInJvbGUiOiJhdXRoZW50aWNhdGVkIiwic2Vzc2lvbl9pZCI6IjQxNGE2MzM2LTExM2QtNDQ4MS05ZjQ0LTM4OTZjZGIzMDQzOSIsInN1YiI6IjI5OTQ2Mzk0LWUwMDktNDNiYy04MWNlLWViZDAyZWE2Y2VmNyIsInVzZXJfbWV0YWRhdGEiOnsiZW1haWwiOiJnb2t1bEAyMDAzZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwaG9uZV92ZXJpZmllZCI6ZmFsc2UsInJvbGVzIjpbXSwic3ViIjoiMjk5NDYzOTQtZTAwOS00M2JjLTgxY2UtZWJkMDJlYTZjZWY3In19.av85oH6fxQeusAbX5avDafGL76iWdkrtGGBBi5SyYF4
+Authorization: Bearer {{access_token}}
+
 
 {
   "role": "admin",
@@ -19,8 +29,22 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhYWwiOiJhYWwxIiwiY
 }
 
 ### Get details of the logged-in user
-GET http://localhost:3000/user/me
-Authorization: Bearer eyJhbG
+GET http://localhost:3000/users/me
+Authorization: Bearer {{access_token}}
 
+### block a user (only by admin)
+POST http://localhost:3000/users/block-user/9b90bad5-95b2-45bf-838a-36a1d20f3c47
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+### unblock a user (only by admin)
+POST http://localhost:3000/users/unblock-user/9b90bad5-95b2-45bf-838a-36a1d20f3c47
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+### List all users (only by admin)
+POST http://localhost:3000/users
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 
