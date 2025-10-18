@@ -3,7 +3,6 @@ import { TypeOrmModule } from '@nestjs/typeorm'; // <-- Add this import
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
-import { MetricsModule } from './metrics/metrics.module';
 
 @Module({
   imports: [
@@ -20,7 +19,6 @@ import { MetricsModule } from './metrics/metrics.module';
       migrationsRun: true,
     }),
     UserModule,
-    MetricsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

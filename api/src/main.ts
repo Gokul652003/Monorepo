@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SupabaseAuthGuard } from './platform/gaurd/supabase-auth.guard';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -7,6 +7,7 @@ import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import LokiTransport from 'winston-loki';
 import { AllExceptionsFilter } from 'common/http-exception.filter';
+import { RolesGuard } from './platform/gaurd/user-role.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -66,8 +67,10 @@ async function bootstrap() {
     }),
   );
 
+  const reflector = app.get(Reflector);
+
   // --- Global Guard ---
-  app.useGlobalGuards(new SupabaseAuthGuard());
+  app.useGlobalGuards(new SupabaseAuthGuard(), new RolesGuard(reflector));
 
   await app.listen(process.env.PORT ?? 3000);
 }

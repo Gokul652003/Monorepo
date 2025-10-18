@@ -11,7 +11,7 @@ import { Request } from 'express';
 export interface SupabaseUser {
   id: string;
   // email?: string;
-  // role?: string;
+  role?: string;
 }
 
 @Injectable()
@@ -39,7 +39,7 @@ export class SupabaseAuthGuard implements CanActivate {
     request.user = {
       id: data.user.id,
       // email: data.user.email || undefined,
-      // role: data.user.user_metadata?.role || undefined, // if role is in metadata
+      role: data.user.user_metadata?.role as string,
     };
 
     return true;
