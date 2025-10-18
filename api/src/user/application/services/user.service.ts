@@ -50,7 +50,7 @@ export class UserService implements IUserService {
     }
 
     blockUser.blockedAt = new Date();
-    await this.profileRepo.update(userId, admin);
+    await this.profileRepo.update(blockUserId, blockUser);
   }
 
   async unblockUser(userId: string, unblockUserId: string): Promise<void> {
@@ -66,7 +66,7 @@ export class UserService implements IUserService {
     }
 
     unblockUser.blockedAt = null;
-    await this.profileRepo.update(userId, admin);
+    await this.profileRepo.update(unblockUserId, unblockUser);
   }
 
   async listUsers(): Promise<UserMeDto[]> {
