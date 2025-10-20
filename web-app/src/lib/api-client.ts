@@ -1,9 +1,7 @@
 import paths from "@/config/paths";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_API_URL ;
-const navigate = useNavigate();
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -30,7 +28,7 @@ api.interceptors.response.use(
   (response) => response.data,
   (error) => {
     if(error.response?.status === 403){
-      navigate(paths.auth)
+      window.location.href = paths.auth
     }
     return Promise.reject(error);
   }
