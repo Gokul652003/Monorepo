@@ -1,19 +1,13 @@
 import { useAuth } from '@/lib/auth';
 import UserDetails from '../components/UserDetails';
 import UserList from '../components/UserList';
+import { useUser } from '../hooks/useUser';
 
 export const DashboardRoute = () => {
   const { logout, loading } = useAuth();
+  const { data: userDetails } = useUser();
 
   if (loading) return <div className="text-center mt-10">Loading ...</div>;
-
-  const dummyUser = {
-    userId: '12345',
-    email: 'john.doe@example.com',
-    role: 'admin',
-    permissions: ['create'],
-    isBlocked: undefined,
-  };
 
   const dummyUsers = [
     {
@@ -61,21 +55,17 @@ export const DashboardRoute = () => {
       </header>
 
       {/* Current user details */}
-      <div className="max-w-md mx-auto">
-        <UserDetails user={dummyUser} />
-      </div>
+      {userDetails && (
+        <div className="max-w-md mx-auto">
+          <UserDetails user={userDetails} />
+        </div>
+      )}
 
       {/* Users list (only for admin) */}
-      {dummyUser.role === 'admin' && (
+      {userDetails?.role === 'admin' && (
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-800">
-            Users Management
-          </h2>
-          <UserList
-            users={dummyUsers}
-            blockUser={blockUser}
-            unblockUser={unblockUser}
-          />
+          <h2 className="text-2xl font-semibold mb-4 text-gray-800">Users Management</h2>
+          <UserList users={dummyUsers} blockUser={blockUser} unblockUser={unblockUser} />
         </section>
       )}
     </div>
