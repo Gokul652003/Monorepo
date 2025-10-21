@@ -1,6 +1,5 @@
-import paths from '@/config/paths';
 import axios from 'axios';
-import { supabase } from './supabase-client';
+import { getBearerToken, redirectToLoginRoute } from './auth';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -15,8 +14,7 @@ const api = axios.create({
 // Request interceptor
 api.interceptors.request.use(
   async (config) => {
-    const session = await supabase.auth.getSession();
-    const token = session.data.session?.access_token;
+    const token = getBearerToken();
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -30,7 +28,7 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      window.location.href = paths.auth;
+      redirectToLoginRoute();
     }
     return Promise.reject(error);
   },
