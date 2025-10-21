@@ -3,7 +3,7 @@ import { getBearerToken, redirectToLoginRoute } from './auth';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-const api = axios.create({
+const apiClient = axios.create({
   baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
@@ -12,7 +12,7 @@ const api = axios.create({
 });
 
 // Request interceptor
-api.interceptors.request.use(
+apiClient.interceptors.request.use(
   async (config) => {
     const token = getBearerToken();
     if (token) {
@@ -24,7 +24,7 @@ api.interceptors.request.use(
 );
 
 // Response interceptor
-api.interceptors.response.use(
+apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
@@ -34,4 +34,4 @@ api.interceptors.response.use(
   },
 );
 
-export default api;
+export default apiClient;
