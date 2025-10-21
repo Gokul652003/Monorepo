@@ -72,7 +72,7 @@ async function bootstrap() {
   // --- Global Guard ---
   app.useGlobalGuards(new SupabaseAuthGuard(), new RolesGuard(reflector));
   app.enableCors({
-    origin: 'http://localhost:5173',
+    origin: process.env.WEB_URL,
   });
   await app.listen(process.env.PORT ?? 3000);
 }
