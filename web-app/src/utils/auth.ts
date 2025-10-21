@@ -1,5 +1,5 @@
 import paths from '@/config/paths';
-import { supabase } from './supabase-client';
+import { supabase } from '../lib/supabase-client';
 
 export const redirectToLoginRoute = () => {
 //   const searchParams = new URLSearchParams();

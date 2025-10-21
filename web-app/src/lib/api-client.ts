@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getBearerToken, redirectToLoginRoute } from './api-auth';
+import { getBearerToken, redirectToLoginRoute } from '../utils/auth';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
