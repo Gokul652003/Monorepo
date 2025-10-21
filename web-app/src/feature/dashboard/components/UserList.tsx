@@ -1,14 +1,25 @@
 import React from 'react';
 import type { UserDetails } from '../type/user-details';
 import { useBlockUser, useUnblockUser } from '../hooks/useUsers';
+import { useQueryClient } from '@tanstack/react-query';
+import { QUERY_KEYS } from '@/constants/query-key';
 
 interface UserListProps {
   users: UserDetails[];
 }
 
 const UserList: React.FC<UserListProps> = ({ users }) => {
-  const { mutate: blockUserMutate } = useBlockUser();
-  const { mutate: unBlockUserMutate } = useUnblockUser();
+  const queryClient = useQueryClient();
+  const { mutate: blockUserMutate } = useBlockUser({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.usersList] });
+    },
+  });
+  const { mutate: unBlockUserMutate } = useUnblockUser({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.usersList] });
+    },
+  });
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {users.map((user) => (

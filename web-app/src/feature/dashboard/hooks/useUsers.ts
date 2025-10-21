@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient, type UseQueryOptions } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient, type UseMutationOptions, type UseQueryOptions } from '@tanstack/react-query';
 import type { UserDetails } from '../type/user-details';
 import { blockUserApi, getUsersList, unblockUserApi } from '../api/users';
 import { QUERY_KEYS } from '@/constants/query-key';
@@ -13,24 +13,16 @@ export const useUsersList = (options?: UseUsersListOptions) => {
   });
 };
 
-export const useBlockUser = () => {
-const queryClient = useQueryClient();
-
+export const useBlockUser = (options:UseMutationOptions<void, Error, string>) => {
   return useMutation<void, Error, string>({
     mutationFn: blockUserApi,
-    onSuccess: () => {
-      queryClient.invalidateQueries({queryKey:[QUERY_KEYS.usersList]});
-    },
+    ...options
   });
 };
 
-export const useUnblockUser = () => {
-const queryClient = useQueryClient();
-
+export const useUnblockUser = (options:UseMutationOptions<void, Error, string>) => {
   return useMutation<void, Error, string>({
     mutationFn: unblockUserApi,
-    onSuccess: () => {
-      queryClient.invalidateQueries({queryKey:[QUERY_KEYS.usersList]});
-    },
+    ...options
   });
 };
