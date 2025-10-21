@@ -1,37 +1,37 @@
-import paths from "@/config/paths";
-import axios from "axios";
+import axios from 'axios';
+import { getBearerToken, redirectToLoginRoute } from './auth';
 
-const BASE_URL = import.meta.env.VITE_API_URL ;
+const BASE_URL = import.meta.env.VITE_API_URL;
 
-const api = axios.create({
+const apiClient = axios.create({
   baseURL: BASE_URL,
   headers: {
-    "Content-Type": "application/json",
-    Accept: "application/json",
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
   },
 });
 
 // Request interceptor
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("access_token");
+apiClient.interceptors.request.use(
+  async (config) => {
+    const token = getBearerToken();
     if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
+      config.headers['Authorization'] = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
-// Response interceptor 
-api.interceptors.response.use(
-  (response) => response.data,
+// Response interceptor
+apiClient.interceptors.response.use(
+  (response) => response,
   (error) => {
-    if(error.response?.status === 403){
-      window.location.href = paths.auth
+    if (error.response?.status === 401) {
+      redirectToLoginRoute();
     }
     return Promise.reject(error);
-  }
+  },
 );
 
-export default api;
+export default apiClient;
