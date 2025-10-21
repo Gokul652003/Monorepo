@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getBearerToken, redirectToLoginRoute } from './auth';
+import { getBearerToken, redirectToLoginRoute } from '../utils/auth';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -14,9 +14,9 @@ const apiClient = axios.create({
 // Request interceptor
 apiClient.interceptors.request.use(
   async (config) => {
-    const token = getBearerToken();
+    const token =await getBearerToken();
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+      config.headers['Authorization'] = token;
     }
     return config;
   },
