@@ -3,9 +3,9 @@ import type { UserDetails } from '../type/user-details';
 import { apiPaths } from '@/config/api-paths';
 
 export const getUsersList = async (): Promise<UserDetails[]> => {
-  const response = await api.post(apiPaths.usersList());
+  const response = await api.post<(Omit<UserDetails, "userId"> & { user_id: string })[]>(apiPaths.usersList());
 
-  return response.data.map((user: any) => ({
+  return response.data.map((user) => ({
     userId: user.user_id,
     email: user.email,
     role: user.role,
