@@ -1,14 +1,10 @@
 import api from '@/lib/api-client';
+import type { UserDetails } from '../type/user-details';
 
-export interface DashboardUser {
-  userId: string;
-  email: string;
-  role: string;
-  permissions: string[];
-  isBlocked: boolean|undefined;
-}
-
-export const getUserDetails = async (): Promise<DashboardUser> => {
+export const getUserDetails = async (): Promise<UserDetails> => {
   const { data } = await api.get('users/me'); 
-  return data;
+  return {
+    ...data,
+    userId: data.user_id,
+  };
 };
