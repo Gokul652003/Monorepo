@@ -21,6 +21,13 @@ const router = createBrowserRouter([
           return { Component: DashboardRoute };
         },
       },
+      {
+        path:paths.pageBuilder.getHref(),
+        lazy: async () => {
+          const { PageBuilder } = await import('@/feature/page-builder/routes/page-builder');
+          return { Component: PageBuilder };
+        },
+      }
     ],
   },
   {
