@@ -1,4 +1,8 @@
-import axios from 'axios';
+import axios, {
+  AxiosError,
+  type AxiosResponse,
+  type InternalAxiosRequestConfig,
+} from 'axios';
 import { getBearerToken, redirectToLoginRoute } from '../utils/auth';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
@@ -11,22 +15,21 @@ const apiClient = axios.create({
   },
 });
 
-// Request interceptor
 apiClient.interceptors.request.use(
-  async (config) => {
-    const token =await getBearerToken();
+  async (config: InternalAxiosRequestConfig) => {
+    const token = await getBearerToken();
     if (token) {
+      config.headers = config.headers ?? ({} as Record<string, string>);
       config.headers['Authorization'] = token;
     }
     return config;
   },
-  (error) => Promise.reject(error),
+  (error: AxiosError) => Promise.reject(error),
 );
 
-// Response interceptor
 apiClient.interceptors.response.use(
-  (response) => response,
-  (error) => {
+  (response: AxiosResponse) => response,
+  (error: AxiosError) => {
     if (error.response?.status === 401) {
       redirectToLoginRoute();
     }
