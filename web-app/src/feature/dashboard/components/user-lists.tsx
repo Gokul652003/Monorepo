@@ -3,7 +3,6 @@ import type { UserDetails } from '@/feature/dashboard/type/user-details';
 
 interface UserCardProps {
   user: UserDetails;
-  initials: string;
   blockUser: (userId: string) => void;
   unBlockUser: (userId: string) => void;
   isProcessing: boolean;
@@ -11,11 +10,11 @@ interface UserCardProps {
 
 export const UserCard: React.FC<UserCardProps> = ({
   user,
-  initials,
   blockUser,
   unBlockUser,
   isProcessing,
 }) => {
+  const initials = user.email.split('@')[0].slice(0, 2).toUpperCase();
   return (
     <div
       key={user.userId}

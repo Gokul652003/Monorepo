@@ -110,13 +110,11 @@ export const DashboardRoute = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                   {usersList.map((user) => {
                     const isProcessing = isBlocking || isUnblocking;
-                    const initials = user.email.split('@')[0].slice(0, 2).toUpperCase();
                     return (
                       <UserCard
                         user={user}
                         blockUser={blockUserMutate}
                         unBlockUser={unBlockUserMutate}
-                        initials={initials}
                         isProcessing={isProcessing}
                       />
                     );
