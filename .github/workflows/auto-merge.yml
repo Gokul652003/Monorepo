@@ -1,36 +1,25 @@
-name: Auto Merge PRs
+name: Auto-Merge After Approval
 
 on:
-  workflow_run:
-    workflows: ["CI/CD Pipeline"]
-    types:
-      - completed
-
-permissions:
-  contents: write
-  pull-requests: write
+  pull_request_review:
+    types: [submitted]
 
 jobs:
-  merge-pr:
+  merge:
     runs-on: ubuntu-latest
-    if: >
-      github.event.workflow_run.conclusion == 'success' &&
-      github.event.workflow_run.event == 'pull_request'
     steps:
-      - name: Auto merge PR via API
-        uses: actions/github-script@v7
+      - uses: actions/github-script@v7
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const pr = context.payload.workflow_run.pull_requests[0];
-            if (!pr) {
-              console.log("No PR associated with this workflow run.");
-              return;
+            if (context.payload.review.state === "approved") {
+              await github.rest.pulls.merge({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.payload.pull_request.number,
+                merge_method: "squash"
+              });
+              console.log("PR merged after approval!");
+            } else {
+              console.log("Review submitted but not approved. Skipping merge.");
             }
-
-            console.log(`Merging PR #${pr.number}...`);
-            await github.rest.pulls.merge({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: pr.number,
-              merge_method: "squash"
-            });
