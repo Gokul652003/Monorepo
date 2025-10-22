@@ -1,12 +1,25 @@
 import { useAuth } from '@/lib/auth';
-import { UserList } from '@/feature/dashboard/components/user-lists';
 import { UserProfile } from '@/feature/dashboard/components/user-profile';
-import { useUsersList } from '@/feature/dashboard/api/users';
+import { useBlockUser, useUnblockUser, useUsersList } from '@/feature/dashboard/api/users';
 import { useProfile } from '@/feature/dashboard/api/get-me';
+import { useQueryClient } from '@tanstack/react-query';
+import { QUERY_KEYS } from '@/constants/query-key';
+import { UserCard } from '../components/user-lists';
 
 export const DashboardRoute = () => {
   const { logout, loading } = useAuth();
   const { data: userDetails, isLoading: loadingUserDetails } = useProfile();
+  const queryClient = useQueryClient();
+  const { mutate: blockUserMutate, isPending: isBlocking } = useBlockUser({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.usersList] });
+    },
+  });
+  const { mutate: unBlockUserMutate, isPending: isUnblocking } = useUnblockUser({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.usersList] });
+    },
+  });
 
   if (loading) {
     return (
@@ -94,7 +107,19 @@ export const DashboardRoute = () => {
                   ))}
                 </div>
               ) : usersList && usersList.length > 0 ? (
-                <UserList users={usersList} />
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {usersList.map((user) => {
+                    const isProcessing = isBlocking || isUnblocking;
+                    return (
+                      <UserCard
+                        user={user}
+                        blockUser={blockUserMutate}
+                        unBlockUser={unBlockUserMutate}
+                        isProcessing={isProcessing}
+                      />
+                    );
+                  })}
+                </div>
               ) : (
                 <div className="text-center py-12">
                   <div className="text-6xl mb-4">📭</div>
