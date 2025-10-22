@@ -1,4 +1,4 @@
-# CI/CD Automation Documentation.
+# CI/CD Automation Documentation
 
 This document explains the CI/CD workflows that have been set up for this monorepo project.
 
