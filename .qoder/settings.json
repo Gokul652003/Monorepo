@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "ask": [
+      "Read(!/home/gokul/MyProjects/Monorepo/**)",
+      "Edit(!/home/gokul/MyProjects/Monorepo/**)"
+    ],
+    "allow": [
+      "Read(/home/gokul/MyProjects/Monorepo/**)",
+      "Edit(/home/gokul/MyProjects/Monorepo/**)"
+    ]
+  },
+  "memoryImport": {},
+  "monitoring": {}
+}

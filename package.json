@@ -26,7 +26,16 @@
     "supabase:status": "npm run supabase:status --workspace api",
     "supabase:db:start": "npm run supabase:db:start --workspace api",
     "supabase:db:reset": "npm run supabase:db:reset --workspace api",
-    "supabase:secrets": "npm run supabase:secrets --workspace api"
+    "supabase:secrets": "npm run supabase:secrets --workspace api",
+    "test:web": "npm test --workspace web-app",
+    "test:api": "npm test --workspace api",
+    "test": "concurrently \"npm run test:web\" \"npm run test:api\"",
+    "ci:test": "npm run lint && npm run test",
+    "ci:build": "npm run build:web && npm run build:api",
+    "ci:deploy": "bash scripts/deploy.sh",
+    "pipeline:local": "bash scripts/run-local-pipeline.sh",
+    "pipeline:test": "act -j test",
+    "pipeline:build": "act -j build"
   },
   "devDependencies": {
     "concurrently": "^9.0.0",

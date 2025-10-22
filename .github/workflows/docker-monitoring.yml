@@ -1,0 +1,34 @@
+name: Docker Monitoring Stack
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'api/docker-compose.yml'
+      - 'api/grafana/**'
+  workflow_dispatch:
+
+jobs:
+  validate-and-deploy-monitoring:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Validate docker-compose.yml
+      run: |
+        cd api
+        docker-compose config
+    
+    - name: Deploy monitoring stack (staging)
+      if: github.ref == 'refs/heads/develop'
+      run: |
+        echo "Deploying monitoring stack to staging"
+        # Add your deployment commands for staging environment
+        # Example: docker-compose up -d on staging server
+    
+    - name: Deploy monitoring stack (production)
+      if: github.ref == 'refs/heads/main'
+      run: |
+        echo "Deploying monitoring stack to production"
+        # Add your deployment commands for production environment
+        # Example: docker-compose up -d on production server
